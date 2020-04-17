@@ -21,8 +21,8 @@ const ProfileRouter: React.FC<Props> = (props) => {
   const initRoute = isLogged ? 'Profile' : 'Login';
 
   const guestRoutes = [
-    <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />,
-    <Stack.Screen name="Register" component={RegisterScreen} options={
+    <Stack.Screen key='login' name="Login" component={LoginScreen} options={{ headerShown: false }} />,
+    <Stack.Screen key='register' name="Register" component={RegisterScreen} options={
       {
         headerLeft: (props) => <HeaderBackButton onPress={() => nav.navigate('User', { screen: 'Login' })} />
       }
@@ -30,8 +30,8 @@ const ProfileRouter: React.FC<Props> = (props) => {
   ];
 
   const userRoutes = [
-    <Stack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />,
-    <Stack.Screen name="Change Password" component={ChangePasswordScreen} options={
+    <Stack.Screen key='profile' name="Profile" component={ProfileScreen} options={{ headerShown: false }} />,
+    <Stack.Screen key='change-password' name="Change Password" component={ChangePasswordScreen} options={
       {
         headerLeft: (props) => <HeaderBackButton onPress={() => nav.navigate('User', { screen: 'Profile' })} />
       }

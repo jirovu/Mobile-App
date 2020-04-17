@@ -63,7 +63,6 @@ const ProfileScreen: React.FC<Props> = (props) => {
       </View>
       <View>
         <ListItem
-          key='lg'
           title="Language"
           rightTitle="English"
           onPress={() => onLogOut()}
@@ -72,14 +71,12 @@ const ProfileScreen: React.FC<Props> = (props) => {
           rightIcon={<Chevron />}
         />
         <ListItem
-          key='change-pass'
           title="Change password"
           containerStyle={styles.listItemContainer}
           onPress={() => nav.navigate('User', { screen: 'Change Password' })}
           rightIcon={<Chevron />}
         />
         <ListItem
-          key='logout'
           title="Logout"
           onPress={() => onLogOut()}
           containerStyle={styles.listItemContainer}
