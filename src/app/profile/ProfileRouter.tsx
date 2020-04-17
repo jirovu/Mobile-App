@@ -40,7 +40,7 @@ const ProfileRouter: React.FC<Props> = (props) => {
 
   return <>
     <Stack.Navigator initialRouteName={initRoute}>
-      {!isLogged ? userRoutes : guestRoutes}
+      {isLogged ? userRoutes : guestRoutes}
     </Stack.Navigator>
   </>
 }

@@ -5,10 +5,10 @@ interface Props {
 
 }
 
-const ProductScreen: React.FC<Props> = (props) => {
+const HomeScreen: React.FC<Props> = (props) => {
   return <>
     <Text>ProductScreen</Text>
   </>
 }
 
-export default React.memo(ProductScreen);
+export default React.memo(HomeScreen);
