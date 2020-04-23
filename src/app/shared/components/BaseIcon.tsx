@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Icon } from 'react-native-elements';
+import {StyleSheet, View} from 'react-native';
+import {Icon} from 'react-native-elements';
 
 interface Props {
-  containerStyle: any,
-  icon: any
+  containerStyle: any;
+  icon: any;
 }
 
 const styles = StyleSheet.create({
@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
     marginRight: 18,
     width: 34,
   },
-})
+});
 
-const BaseIcon: React.FC<Props> = ({ containerStyle, icon }) => (
+const BaseIcon: React.FC<Props> = ({containerStyle, icon}) => (
   <View style={[styles.container, containerStyle]}>
     <Icon
       size={24}
@@ -32,6 +32,6 @@ const BaseIcon: React.FC<Props> = ({ containerStyle, icon }) => (
       {...icon}
     />
   </View>
-)
+);
 
 export default React.memo(BaseIcon);

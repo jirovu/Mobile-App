@@ -1,27 +1,30 @@
-import { Action } from "../actions.config"
+import {Action} from '../actions.config';
 
 export interface Product {
-  name: string,
-  img: string,
-  price: any,
-  description: string
+  name: string;
+  img: string;
+  price: any;
+  description: string;
 }
 
 export interface CartState {
-  carts: Product[],
-  number: number
+  carts: Product[];
+  number: number;
 }
 
 const initialCartState: CartState = {
   carts: [],
-  number: 0
-}
+  number: 0,
+};
 
-export const cartState = (state: CartState = initialCartState, action: Action) => {
+export const cartState = (
+  state: CartState = initialCartState,
+  action: Action,
+) => {
   switch (action.type) {
     case 'HELLO':
-      return { ...state }
+      return {...state};
     default:
-      return { ...state };
+      return {...state};
   }
-}
+};

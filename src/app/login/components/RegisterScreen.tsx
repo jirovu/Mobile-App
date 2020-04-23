@@ -1,32 +1,32 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import { Image, StyleSheet, View, Alert } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import registerImg from "../../../assets/images/register.png";
+import {Image, StyleSheet, View} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import Snackbar from 'react-native-snackbar';
+import registerImg from '../../../assets/images/register.png';
+import {db} from '../../firebase.config';
 import colors from '../styles/colors';
 import strings from '../styles/strings';
 import FormTextInput from './FormTextInput';
 import LoginButton from './LoginButton';
-import { db } from '../../firebase.config';
-import { useNavigation } from '@react-navigation/native';
-import Snackbar from 'react-native-snackbar';
 
-interface Props {
-
-}
+interface Props {}
 
 const onRegisterSpress = (nav: any, email: string, password: string) => {
-  db.ref('/items').push({ email, password }).then(res => {
-    Snackbar.show({
-      text: 'Register successfully!',
-      duration: Snackbar.LENGTH_INDEFINITE,
-      action: {
-        text: 'UNDO',
-        textColor: 'green',
-      },
-    });
-    nav.navigate('User', { screen: 'Login' });
-  })
-    .catch(err => {
+  db.ref('/items')
+    .push({email, password})
+    .then((res) => {
+      Snackbar.show({
+        text: 'Register successfully!',
+        duration: Snackbar.LENGTH_INDEFINITE,
+        action: {
+          text: 'UNDO',
+          textColor: 'green',
+        },
+      });
+      nav.navigate('User', {screen: 'Login'});
+    })
+    .catch((err) => {
       Snackbar.show({
         text: 'Something went wrong!',
         duration: Snackbar.LENGTH_INDEFINITE,
@@ -56,7 +56,7 @@ const RegisterScreen: React.FC<Props> = (props: Props) => {
       setEmailErrorMsg('');
     }
     setEmail(email);
-  }
+  };
 
   const handlePasswordChange = (pass: string) => {
     if (passwordTouched && pass === '') {
@@ -65,11 +65,11 @@ const RegisterScreen: React.FC<Props> = (props: Props) => {
       setPasswordErrorMsg('');
     }
     setPassword(pass);
-  }
+  };
 
   const handlePasswordRepeatChange = (passRepeat: string) => {
     setPasswordRepeat(passRepeat);
-  }
+  };
 
   const handleEmailSubmitPress = () => {
     if (passwordInputRef.current) {
@@ -82,10 +82,9 @@ const RegisterScreen: React.FC<Props> = (props: Props) => {
 
   return (
     <KeyboardAwareScrollView
-      resetScrollToCoords={{ x: 0, y: 0 }}
+      resetScrollToCoords={{x: 0, y: 0}}
       contentContainerStyle={styles.container}
-      scrollEnabled={false}
-    >
+      scrollEnabled={false}>
       <View style={styles.form}>
         <Image source={registerImg} style={styles.logo} />
         <FormTextInput
@@ -119,32 +118,37 @@ const RegisterScreen: React.FC<Props> = (props: Props) => {
         <LoginButton
           label={strings.REGISTER}
           onPress={() => onRegisterSpress(nav, email, password)}
-          disabled={!email || !password || !passwordRepeat || passwordRepeat !== password}
+          disabled={
+            !email ||
+            !password ||
+            !passwordRepeat ||
+            passwordRepeat !== password
+          }
         />
       </View>
     </KeyboardAwareScrollView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.WHITE,
-    alignItems: "center",
-    justifyContent: "space-between"
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   logo: {
     flex: 1,
-    width: "50%",
-    resizeMode: "contain",
-    alignSelf: "center",
-    maxHeight: '40%'
+    width: '50%',
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    maxHeight: '40%',
   },
   form: {
     flex: 1,
-    justifyContent: "center",
-    width: "80%"
-  }
+    justifyContent: 'center',
+    width: '80%',
+  },
 });
 
 export default React.memo(RegisterScreen);

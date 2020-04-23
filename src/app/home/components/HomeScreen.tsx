@@ -1,14 +1,14 @@
 import React from 'react';
-import { Text } from 'react-native';
+import {Text} from 'react-native';
 
-interface Props {
+interface Props {}
 
-}
-
-const HomeScreen: React.FC<Props> = (props) => {
-  return <>
-    <Text>ProductScreen</Text>
-  </>
-}
+const HomeScreen: React.FC<Props> = () => {
+  return (
+    <>
+      <Text>ProductScreen</Text>
+    </>
+  );
+};
 
 export default React.memo(HomeScreen);

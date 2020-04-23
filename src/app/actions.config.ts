@@ -1,7 +1,6 @@
-import { Action as ReduxAction } from 'redux';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import {Action as ReduxAction} from 'redux';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 /**
  * -------------------------
@@ -9,7 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
  * -------------------------
  */
 export interface Action extends ReduxAction {
-  payload?: any
+  payload?: any;
 }
 
 export const Stack = createStackNavigator();

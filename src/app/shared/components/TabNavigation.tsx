@@ -1,30 +1,27 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import LoginScreen from '../../login/components/LoginScreen';
 import IconWithBadge from './IconWithBadge';
-import { NavigationContainer } from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import ProfileRouter from '../../profile/ProfileRouter';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/app/store.config';
+import {useSelector} from 'react-redux';
+import {RootState} from 'src/app/store.config';
 
-interface Props {
-
-}
+interface Props {}
 
 const Tab = createBottomTabNavigator();
 
-const TabNavigation: React.FC<Props> = (props) => {
-
-  const { number } = useSelector((state: RootState) => state.cart);
+const TabNavigation: React.FC<Props> = (props: Props) => {
+  const {number} = useSelector((state: RootState) => state.cart);
 
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={(screenData: any) => {
-          const { route } = screenData;
-          return ({
+          const {route} = screenData;
+          return {
             tabBarIcon: (tabBarData: any) => {
-              const { focused, color, size } = tabBarData;
+              const {focused, color, size} = tabBarData;
               let iconName: any;
 
               if (route.name === 'Home') {
@@ -35,20 +32,26 @@ const TabNavigation: React.FC<Props> = (props) => {
                 iconName = focused ? 'ios-list-box' : 'ios-list';
               }
 
-              return <IconWithBadge badgeCount={number} name={iconName} size={size} color={color} />;
+              return (
+                <IconWithBadge
+                  badgeCount={number}
+                  name={iconName}
+                  size={size}
+                  color={color}
+                />
+              );
             },
-          })
+          };
         }}
         tabBarOptions={{
           activeTintColor: 'tomato',
           inactiveTintColor: 'gray',
-        }}
-      >
+        }}>
         <Tab.Screen name="Home" component={LoginScreen} />
         <Tab.Screen name="Profile" component={ProfileRouter} />
       </Tab.Navigator>
     </NavigationContainer>
-  )
-}
+  );
+};
 
 export default React.memo(TabNavigation);

@@ -1,17 +1,17 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface Props {
-  name: string,
-  badgeCount: number,
-  color: string,
-  size: any
+  name: string;
+  badgeCount: number;
+  color: string;
+  size: any;
 }
 
-const IconWithBadge: React.FC<Props> = ({ name, badgeCount, color, size }) => {
+const IconWithBadge: React.FC<Props> = ({name, badgeCount, color, size}) => {
   return (
-    <View style={{ width: 24, height: 24, margin: 5 }}>
+    <View style={{width: 24, height: 24, margin: 5}}>
       <Icon name={name} size={size} color={color} />
       {badgeCount > 0 && (
         <View
@@ -26,15 +26,14 @@ const IconWithBadge: React.FC<Props> = ({ name, badgeCount, color, size }) => {
             height: 12,
             justifyContent: 'center',
             alignItems: 'center',
-          }}
-        >
-          <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}>
+          }}>
+          <Text style={{color: 'white', fontSize: 10, fontWeight: 'bold'}}>
             {badgeCount}
           </Text>
         </View>
       )}
     </View>
-  )
-}
+  );
+};
 
 export default React.memo(IconWithBadge);

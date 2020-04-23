@@ -1,17 +1,14 @@
-import { useNavigation } from "@react-navigation/native";
-import * as React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import loginImg from "../../../assets/images/login.png";
-import FormTextInput from "../components/FormTextInput";
-import colors from "../styles/colors";
-import strings from "../styles/strings";
-import LoginButton from "./LoginButton";
+import {useNavigation} from '@react-navigation/native';
+import * as React from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import loginImg from '../../../assets/images/login.png';
+import FormTextInput from '../components/FormTextInput';
+import colors from '../styles/colors';
+import strings from '../styles/strings';
+import LoginButton from './LoginButton';
 
-
-interface Props {
-
-}
+interface Props {}
 
 const LoginScreen: React.FC<Props> = (props) => {
   const passwordInputRef = React.useRef<any>();
@@ -30,7 +27,7 @@ const LoginScreen: React.FC<Props> = (props) => {
       setEmailErrorMsg('');
     }
     setEmail(email);
-  }
+  };
 
   const handlePasswordChange = (pass: string) => {
     if (passwordTouched && pass === '') {
@@ -39,7 +36,7 @@ const LoginScreen: React.FC<Props> = (props) => {
       setPasswordErrorMsg('');
     }
     setPassword(pass);
-  }
+  };
 
   const handleEmailSubmitPress = () => {
     if (passwordInputRef.current) {
@@ -52,15 +49,14 @@ const LoginScreen: React.FC<Props> = (props) => {
   const handlePasswordBlur = () => setPasswordTouched(true);
 
   const handleLoginPress = () => {
-    console.log("Login button pressed");
+    console.log('Login button pressed');
   };
 
   return (
     <KeyboardAwareScrollView
-      resetScrollToCoords={{ x: 0, y: 0 }}
+      resetScrollToCoords={{x: 0, y: 0}}
       contentContainerStyle={styles.container}
-      scrollEnabled={false}
-    >
+      scrollEnabled={false}>
       <View style={styles.form}>
         <Image source={loginImg} style={styles.logo} />
         <FormTextInput
@@ -92,40 +88,39 @@ const LoginScreen: React.FC<Props> = (props) => {
 
         <Text
           style={styles.registerText}
-          onPress={() => navigation.navigate('User', { screen: 'Register' })}
-        >
+          onPress={() => navigation.navigate('User', {screen: 'Register'})}>
           Register new account!
         </Text>
       </View>
     </KeyboardAwareScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.WHITE,
-    alignItems: "center",
-    justifyContent: "space-between"
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   logo: {
     flex: 1,
-    width: "70%",
-    resizeMode: "contain",
-    alignSelf: "center",
-    maxHeight: '50%'
+    width: '70%',
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    maxHeight: '50%',
   },
   form: {
     flex: 1,
-    justifyContent: "center",
-    width: "80%"
+    justifyContent: 'center',
+    width: '80%',
   },
   registerText: {
     color: 'gray',
     fontSize: 14,
     textAlign: 'right',
-    textDecorationLine: 'underline'
-  }
+    textDecorationLine: 'underline',
+  },
 });
 
 export default React.memo(LoginScreen);

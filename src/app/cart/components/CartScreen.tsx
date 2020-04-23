@@ -1,14 +1,14 @@
 import React from 'react';
-import { Text } from 'react-native';
+import {Text} from 'react-native';
 
-interface Props {
-
-}
+interface Props {}
 
 const CartScreen: React.FC<Props> = (props: Props) => {
-  return <>
-    <Text>This is cart</Text>
-  </>
-}
+  return (
+    <>
+      <Text>This is cart</Text>
+    </>
+  );
+};
 
 export default React.memo(CartScreen);
