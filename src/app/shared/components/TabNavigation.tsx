@@ -1,11 +1,11 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
-import LoginScreen from '../../login/components/LoginScreen';
-import IconWithBadge from './IconWithBadge';
 import {NavigationContainer} from '@react-navigation/native';
-import ProfileRouter from '../../profile/ProfileRouter';
+import React from 'react';
 import {useSelector} from 'react-redux';
 import {RootState} from 'src/app/store.config';
+import LoginScreen from '../../login/components/LoginScreen';
+import ProfileRouter from '../../profile/ProfileRouter';
+import IconWithBadge from './IconWithBadge';
 
 interface Props {}
 

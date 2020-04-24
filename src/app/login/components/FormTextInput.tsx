@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
   errorText: {
     height: 20,
     color: colors.TORCH_RED,
-    // ...and here as well
     ...Platform.select({
       android: {
         paddingLeft: 6,
