@@ -1,12 +1,14 @@
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {Avatar, ListItem} from 'react-native-elements';
-import {useSelector} from 'react-redux';
-import {RootState} from 'src/app/store.config';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Avatar, ListItem } from 'react-native-elements';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'src/app/store.config';
 import Chevron from '../../shared/components/Chevron';
+import { loginAction } from '../../login/login.actions';
+import { generateSnackbar } from '../../login/components/RegisterScreen';
 
-interface Props {}
+interface Props { }
 
 const styles = StyleSheet.create({
   scroll: {
@@ -38,10 +40,15 @@ const styles = StyleSheet.create({
 });
 
 const ProfileScreen: React.FC<Props> = (props) => {
-  const {email} = useSelector((state: RootState) => state.login);
+  const { email } = useSelector((state: RootState) => state.login);
   const nav = useNavigation();
+  const dispatch = useDispatch<any>();
 
-  const onLogOut = () => {};
+  const onLogOut = () => {
+    dispatch(loginAction.logout());
+    generateSnackbar('You already logged out', 'green');
+    nav.navigate('User', { screen: 'Login' });
+  };
 
   return (
     <ScrollView style={styles.scroll}>
@@ -56,28 +63,20 @@ const ProfileScreen: React.FC<Props> = (props) => {
             }}
           />
         </View>
-        <Text style={styles.infoText}>Vu Viet Anh</Text>
+        <Text style={styles.infoText}>{email}</Text>
       </View>
       <View>
         <ListItem
-          title="Language"
-          rightTitle="English"
-          onPress={() => onLogOut()}
-          rightTitleStyle={{fontSize: 15}}
-          containerStyle={styles.listItemContainer}
-          rightIcon={<Chevron />}
-        />
-        <ListItem
           title="Change password"
           containerStyle={styles.listItemContainer}
-          onPress={() => nav.navigate('User', {screen: 'Change Password'})}
+          onPress={() => nav.navigate('User', { screen: 'Change Password' })}
           rightIcon={<Chevron />}
         />
         <ListItem
           title="Logout"
           onPress={() => onLogOut()}
           containerStyle={styles.listItemContainer}
-          rightIcon={{name: 'flight-takeoff'}}
+          rightIcon={{ name: 'flight-takeoff' }}
         />
       </View>
     </ScrollView>

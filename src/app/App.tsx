@@ -1,9 +1,10 @@
 import React from 'react';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import AppRouter from './AppRouter';
-import {appStore} from './store.config';
+import { appStore } from './store.config';
 
-interface Props {}
+
+interface Props { }
 
 const App: React.FC<Props> = (props) => {
   return (

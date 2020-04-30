@@ -1,4 +1,10 @@
-import {Action} from '../actions.config';
+import { Action } from '../actions.config';
+
+export const loginActionCreator = {
+  LOGIN: 'LOGIN',
+  REGISTER: 'REGISTER',
+  LOGOUT: 'LOGOUT'
+}
 
 export interface LoginState {
   email: string;
@@ -6,20 +12,23 @@ export interface LoginState {
   isLogged: boolean;
 }
 
-export const initiallLoginState: LoginState = {
+export const initialLoginState: LoginState = {
   email: '',
   password: '',
   isLogged: false,
 };
 
-export const loginReducer = (
-  state: LoginState = initiallLoginState,
-  action: Action,
-) => {
+export const loginReducer = (state: LoginState = initialLoginState, action: Action) => {
   switch (action.type) {
-    case 'DEMO':
-      return {...state};
+    case loginActionCreator.LOGIN: {
+      const user = action.payload as LoginState;
+      console.log(user);
+      return { ...state, ...user };
+    }
+    case loginActionCreator.LOGOUT: {
+      return { ...state, email: '', password: '', isLogged: false };
+    }
     default:
-      return {...state};
+      return { ...state };
   }
 };

@@ -1,24 +1,30 @@
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import * as React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import loginImg from '../../../assets/images/login.png';
 import FormTextInput from '../components/FormTextInput';
 import colors from '../styles/colors';
 import strings from '../styles/strings';
 import LoginButton from './LoginButton';
+import { db } from '../../firebase.config';
+import { generateSnackbar } from './RegisterScreen';
+import { useDispatch } from 'react-redux';
+import { loginAction } from '../login.actions';
+import { LoginState } from '../login.state';
 
-interface Props {}
+interface Props { }
 
 const LoginScreen: React.FC<Props> = (props) => {
-  const passwordInputRef = React.useRef<any>();
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   const [emailTouched, setEmailTouched] = React.useState<boolean>(false);
   const [passwordTouched, setPasswordTouched] = React.useState<boolean>(false);
   const [emailErrorMsg, setEmailErrorMsg] = React.useState<string>('');
   const [passwordErrorMsg, setPasswordErrorMsg] = React.useState<string>('');
-  const navigation = useNavigation();
+  const nav = useNavigation();
+  const passwordInputRef = React.useRef<any>();
+  const dispatch = useDispatch<any>();
 
   const handleEmailChange = (email: string) => {
     if (emailTouched && email === '') {
@@ -49,12 +55,26 @@ const LoginScreen: React.FC<Props> = (props) => {
   const handlePasswordBlur = () => setPasswordTouched(true);
 
   const handleLoginPress = () => {
-    console.log('Login button pressed');
+    db.ref('/users').orderByChild('email').equalTo(email).once('value', snapshot => {
+      if (snapshot.exists()) {
+        snapshot.forEach(e => {
+          const dbPass = e.val().password;
+          if (dbPass === password) {
+            const user = { email, password, isLogged: true } as LoginState;
+            dispatch(loginAction.login(user))
+            nav.navigate('Home');
+            generateSnackbar('Login successful', 'green');
+          } else {
+            generateSnackbar('Login failed', 'red');
+          }
+        })
+      }
+    })
   };
 
   return (
     <KeyboardAwareScrollView
-      resetScrollToCoords={{x: 0, y: 0}}
+      resetScrollToCoords={{ x: 0, y: 0 }}
       contentContainerStyle={styles.container}
       scrollEnabled={false}>
       <View style={styles.form}>
@@ -69,6 +89,7 @@ const LoginScreen: React.FC<Props> = (props) => {
           returnKeyType="next"
           onBlur={handleEmailBlur}
           error={emailErrorMsg}
+          autoCapitalize="none"
         />
         <FormTextInput
           ref={passwordInputRef}
@@ -79,6 +100,7 @@ const LoginScreen: React.FC<Props> = (props) => {
           returnKeyType="done"
           onBlur={handlePasswordBlur}
           error={passwordErrorMsg}
+          autoCapitalize="none"
         />
         <LoginButton
           label={strings.LOGIN}
@@ -88,7 +110,7 @@ const LoginScreen: React.FC<Props> = (props) => {
 
         <Text
           style={styles.registerText}
-          onPress={() => navigation.navigate('User', {screen: 'Register'})}>
+          onPress={() => nav.navigate('User', { screen: 'Register' })}>
           Register new account!
         </Text>
       </View>

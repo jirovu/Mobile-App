@@ -1,41 +1,41 @@
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import { Image, StyleSheet, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Snackbar from 'react-native-snackbar';
 import registerImg from '../../../assets/images/register.png';
-import {db} from '../../firebase.config';
+import { db } from '../../firebase.config';
 import colors from '../styles/colors';
 import strings from '../styles/strings';
 import FormTextInput from './FormTextInput';
 import LoginButton from './LoginButton';
 
-interface Props {}
+interface Props { }
 
-const onRegisterSpress = (nav: any, email: string, password: string) => {
-  db.ref('/items')
-    .push({email, password})
-    .then((res) => {
-      Snackbar.show({
-        text: 'Register successfully!',
-        duration: Snackbar.LENGTH_INDEFINITE,
-        action: {
-          text: 'UNDO',
-          textColor: 'green',
-        },
+export const generateSnackbar = (text: string, color: string) => {
+  return Snackbar.show({
+    text: text,
+    duration: 3000,
+    action: {
+      text: 'UNDO',
+      textColor: color,
+    },
+  });
+}
+
+const onRegisterPress = (nav: any, email: string, password: string) => {
+  db.ref('/users').orderByChild('email').equalTo(email.toLowerCase()).once('value', snapshot => {
+    if (snapshot.exists()) {
+      generateSnackbar('Email already exists', 'red');
+    } else {
+      db.ref('/users').push({ email, password }).then((res) => {
+        generateSnackbar('Register successfully!', 'green');
+        nav.navigate('User', { screen: 'Login' });
+      }).catch((err) => {
+        generateSnackbar('Something went wrong!', 'green');
       });
-      nav.navigate('User', {screen: 'Login'});
-    })
-    .catch((err) => {
-      Snackbar.show({
-        text: 'Something went wrong!',
-        duration: Snackbar.LENGTH_INDEFINITE,
-        action: {
-          text: 'UNDO',
-          textColor: 'red',
-        },
-      });
-    });
+    }
+  });
 };
 
 const RegisterScreen: React.FC<Props> = (props: Props) => {
@@ -82,7 +82,7 @@ const RegisterScreen: React.FC<Props> = (props: Props) => {
 
   return (
     <KeyboardAwareScrollView
-      resetScrollToCoords={{x: 0, y: 0}}
+      resetScrollToCoords={{ x: 0, y: 0 }}
       contentContainerStyle={styles.container}
       scrollEnabled={false}>
       <View style={styles.form}>
@@ -93,8 +93,8 @@ const RegisterScreen: React.FC<Props> = (props: Props) => {
           onSubmitEditing={handleEmailSubmitPress}
           placeholder={strings.EMAIL_PLACEHOLDER}
           autoCorrect={false}
-          keyboardType="email-address"
-          returnKeyType="next"
+          keyboardType='email-address'
+          returnKeyType='next'
           onBlur={handleEmailBlur}
           error={emailErrorMsg}
         />
@@ -104,7 +104,7 @@ const RegisterScreen: React.FC<Props> = (props: Props) => {
           onChangeText={handlePasswordChange}
           placeholder={strings.PASSWORD_PLACEHOLDER}
           secureTextEntry={true}
-          returnKeyType="next"
+          returnKeyType='next'
           onBlur={handlePasswordBlur}
           error={passwordErrorMsg}
         />
@@ -113,11 +113,11 @@ const RegisterScreen: React.FC<Props> = (props: Props) => {
           onChangeText={handlePasswordRepeatChange}
           placeholder={strings.PASSWORD_REPEAT_PLACEHOLDER}
           secureTextEntry={true}
-          returnKeyType="done"
+          returnKeyType='done'
         />
         <LoginButton
           label={strings.REGISTER}
-          onPress={() => onRegisterSpress(nav, email, password)}
+          onPress={() => onRegisterPress(nav, email, password)}
           disabled={
             !email ||
             !password ||
