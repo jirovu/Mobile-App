@@ -20,19 +20,11 @@ const AppRouter: React.FC<Props> = (props) => {
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
-    (async () => {
-      const email = await AsyncStorage.getItem('email');
-      if (email) {
-        db.ref('/users').orderByChild('email').equalTo(email).once('value', snapshot => {
-          if (snapshot.exists()) {
-            snapshot.forEach(e => {
-              const user = { email: e.val().email, password: e.val().password, isLogged: true } as LoginState;
-              dispatch(loginAction.login(user));
-            });
-          }
-        })
-      }
-    })();
+    AsyncStorage.getItem('user').then((user: any) => {
+      const email = user.split(':')[0];
+      const password = user.split(':')[1];
+      dispatch(loginAction.login({ email, password, isLogged: true }));
+    })
   }, []);
 
   return (

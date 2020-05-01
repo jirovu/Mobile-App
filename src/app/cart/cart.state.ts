@@ -1,8 +1,9 @@
-import {Action} from '../actions.config';
+import { Action } from '../actions.config';
 
 export interface Product {
+  id: number;
   name: string;
-  img: string;
+  url: string;
   price: any;
   description: string;
 }
@@ -17,14 +18,11 @@ const initialCartState: CartState = {
   number: 0,
 };
 
-export const cartState = (
-  state: CartState = initialCartState,
-  action: Action,
-) => {
+export const cartState = (state: CartState = initialCartState, action: Action) => {
   switch (action.type) {
     case 'HELLO':
-      return {...state};
+      return { ...state };
     default:
-      return {...state};
+      return { ...state };
   }
 };

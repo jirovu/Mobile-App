@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native';
 
 class LoginAction {
   login = (user: LoginState) => {
-    AsyncStorage.setItem('email', user.email);
+    AsyncStorage.setItem('user', `${user.email}:${user.password}`);
     return {
       type: loginActionCreator.LOGIN,
       payload: user
@@ -14,6 +14,7 @@ class LoginAction {
   logout = () => {
     return (dispatch: Dispatch<any>, getState: any) => {
       const currentUser = getState().login;
+      AsyncStorage.removeItem('user');
       dispatch({
         type: loginActionCreator.LOGOUT
       });
