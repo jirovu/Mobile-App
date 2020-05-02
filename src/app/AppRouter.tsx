@@ -12,6 +12,7 @@ import { LoginState } from './login/login.state';
 import ProfileRouter from './profile/ProfileRouter';
 import IconWithBadge from './shared/components/IconWithBadge';
 import { RootState } from './store.config';
+import CartRouter from './cart/CartRouter';
 
 interface Props { }
 
@@ -65,7 +66,7 @@ const AppRouter: React.FC<Props> = (props) => {
           }}
           initialRouteName="Home">
           <Tab.Screen name="Home" component={HomeRouter} />
-          <Tab.Screen name="Cart" component={CartScreen} />
+          <Tab.Screen name="Cart" component={CartRouter} />
           <Tab.Screen name="User" component={ProfileRouter} />
         </Tab.Navigator>
       </NavigationContainer>

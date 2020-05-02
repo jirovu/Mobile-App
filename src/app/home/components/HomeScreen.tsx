@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { Text, ActivityIndicator, View, StyleSheet } from 'react-native';
-import { RootState } from '../../store.config';
-import { db } from '../../firebase.config';
-import { Product } from '../../cart/cart.state';
+import { ActivityIndicator, AsyncStorage, StyleSheet, View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
+import { cartAction } from '../../cart/cart.actions';
+import { Product } from '../../cart/cart.state';
+import { db } from '../../firebase.config';
+import { RootState } from '../../store.config';
 import { homeAction } from '../home.actions';
 import ProductItem from './ProductItem';
-import { ScrollView } from 'react-native-gesture-handler';
 
 interface Props { }
 
@@ -25,12 +26,24 @@ const HomeScreen: React.FC<Props> = () => {
       });
       dispatch(homeAction.getProduct(carts));
     });
+
+    AsyncStorage.getItem('carts').then((cartsJson: any) => {
+      if (cartsJson) {
+        const carts = JSON.parse(cartsJson) as Product[];
+        const number = carts.length;
+        dispatch(cartAction.updateCart(carts, number));
+      }
+    });
   }, []);
 
   return (
     <ScrollView>
       {
-        (product && product.length > 0) ? product.map(e => <ProductItem product={e} />)
+        (product && product.length > 0) ? product.map(e => (
+          <React.Fragment key={e.id}>
+            <ProductItem product={e} />
+          </React.Fragment>
+        ))
           : <View style={[styles.container, styles.horizontal]}>
             <ActivityIndicator size="large" color="#0000ff" />
           </View>

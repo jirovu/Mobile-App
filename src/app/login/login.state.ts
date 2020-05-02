@@ -22,7 +22,6 @@ export const loginReducer = (state: LoginState = initialLoginState, action: Acti
   switch (action.type) {
     case loginActionCreator.LOGIN: {
       const user = action.payload as LoginState;
-      console.log(user);
       return { ...state, ...user };
     }
     case loginActionCreator.LOGOUT: {

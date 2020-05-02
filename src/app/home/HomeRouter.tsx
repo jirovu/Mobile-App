@@ -13,19 +13,19 @@ const HomeRouter: React.FC<Props> = (props) => {
 
   return (
     <>
-      <Stack.Navigator initialRouteName="Product">
+      <Stack.Navigator initialRouteName="Home Product">
         <Stack.Screen
-          name="Product"
+          name="Home Product"
           component={HomeScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Detail"
+          name="Home Detail"
           component={ProductDetail}
           options={{
             headerLeft: (props) => (
               <HeaderBackButton
-                onPress={() => nav.navigate('Product')}
+                onPress={() => nav.navigate('Home Product')}
               />
             ),
           }}

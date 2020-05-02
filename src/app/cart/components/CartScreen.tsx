@@ -1,54 +1,38 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { Button, Text, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import ProductItem from '../../home/components/ProductItem';
 import { RootState } from '../../store.config';
-import { db } from '../../firebase.config';
-import { Product } from '../cart.state';
 
 interface Props { }
 
-const getCartItem = async (cartId: number, cart: Product[]) => {
-
-}
-
 const CartScreen: React.FC<Props> = (props: Props) => {
 
-  const dispatch = useDispatch<any>();
-  const user = useSelector((state: RootState) => state.login);
-  const cart = useSelector((state: RootState) => state.cart);
+  const nav = useNavigation();
+  const isLogged = useSelector((state: RootState) => state.login.isLogged);
+  const carts = useSelector((state: RootState) => state.cart.carts);
 
-  useEffect(() => {
-    // if (user && user.isLogged) {
-    //   db.ref('/users').orderByChild('email').equalTo(user.email).once('value', res => {
-    //     if (res.exists()) {
-    //       const carts: Product[] = [];
-    //       res.forEach(e => {
-    //         let product: Product = { id: 0, name: '', description: '', img: '', price: '' };
-    //         db.ref('/users').orderByChild('carts').once('value', s => {
-    //           if (s.exists()) {
-    //             s.forEach(e => {
-    //               const val = e.val();
-    //               product = { id: val.id, name: val.name, img: val.img, price: val.price, description: val.description };
-    //               console.log(product);
-    //               carts.push(product);
-    //             });
-    //           }
-    //         });
-    //       });
-    //     }
-    //   }).then(res => console.log(res));
-    // }
-  });
-
-  useEffect(() => {
-
-  }, [cart]);
-
-  return (
-    <>
-      <Text>This is cart</Text>
-    </>
-  );
+  return <>
+    {
+      isLogged ?
+        ((carts && carts.length > 0) ? carts.map(e => (
+          <React.Fragment key={e.id}>
+            <ProductItem product={e} isCart={true} />
+          </React.Fragment>
+        ))
+          :
+          <Text style={{ textAlign: 'center', margin: 'auto' }}>Empty Cart</Text>)
+        :
+        <View style={{ marginTop: 30 }}>
+          <Text style={{ textAlign: 'center', marginTop: 10, marginBottom: 10 }}>Please login to continue</Text>
+          <Button
+            title="Login"
+            onPress={() => nav.navigate('Login')}
+          />
+        </View>
+    }
+  </>
 };
 
 export default React.memo(CartScreen);

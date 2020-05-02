@@ -1,16 +1,13 @@
-import React from 'react';
-import { Product } from '../../cart/cart.state';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { Avatar, ListItem } from 'react-native-elements';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'src/app/store.config';
-import Chevron from '../../shared/components/Chevron';
-import { loginAction } from '../../login/login.actions';
-import { generateSnackbar } from '../../login/components/RegisterScreen';
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { Product } from '../../cart/cart.state';
+import Chevron from '../../shared/components/Chevron';
 
 interface Props {
-  product: Product
+  product: Product,
+  isCart?: boolean
 }
 
 const styles = StyleSheet.create({
@@ -42,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ProductItem: React.FC<Props> = ({ product }) => {
+const ProductItem: React.FC<Props> = ({ product, isCart }) => {
   const nav = useNavigation();
 
   return <>
@@ -50,7 +47,16 @@ const ProductItem: React.FC<Props> = ({ product }) => {
       <ListItem
         title={product.name}
         containerStyle={styles.listItemContainer}
-        onPress={() => nav.navigate('Home', { screen: 'Detail' })}
+        onPress={() => nav.navigate(isCart ? 'Cart' : 'Home', {
+          screen: isCart ? 'Cart Detail' : 'Home Detail', params: {
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            url: product.url,
+            description: product.description,
+            isCart: isCart ? true : false
+          }
+        })}
         rightIcon={<Chevron />}
         leftAvatar={{ source: { uri: product.url } }}
       />
