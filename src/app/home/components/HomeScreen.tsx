@@ -14,6 +14,7 @@ interface Props { }
 const HomeScreen: React.FC<Props> = () => {
 
   const dispatch = useDispatch<any>();
+  const { email, isLogged } = useSelector((state: RootState) => state.login);
   const product = useSelector((state: RootState) => state.product.product);
 
   useEffect(() => {
@@ -27,14 +28,14 @@ const HomeScreen: React.FC<Props> = () => {
       dispatch(homeAction.getProduct(carts));
     });
 
-    AsyncStorage.getItem('carts').then((cartsJson: any) => {
+    AsyncStorage.getItem(`carts[${email}]`).then((cartsJson: any) => {
       if (cartsJson) {
         const carts = JSON.parse(cartsJson) as Product[];
         const number = carts.length;
         dispatch(cartAction.updateCart(carts, number));
       }
     });
-  }, []);
+  }, [email, isLogged]);
 
   return (
     <ScrollView>

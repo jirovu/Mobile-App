@@ -7,6 +7,7 @@ import { RootState } from 'src/app/store.config';
 import Chevron from '../../shared/components/Chevron';
 import { loginAction } from '../../login/login.actions';
 import { generateSnackbar } from '../../login/components/RegisterScreen';
+import userImg from '../../../assets/images/user.png';
 
 interface Props { }
 
@@ -57,10 +58,7 @@ const ProfileScreen: React.FC<Props> = (props) => {
           <Avatar
             rounded
             size="large"
-            source={{
-              uri:
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Flag_of_the_Communist_Party_of_Vietnam.svg/1200px-Flag_of_the_Communist_Party_of_Vietnam.svg.png',
-            }}
+            source={userImg}
           />
         </View>
         <Text style={styles.infoText}>{email}</Text>

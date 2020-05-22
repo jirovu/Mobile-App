@@ -14,13 +14,14 @@ const ProductDetail: React.FC<Props> = (props: Props) => {
 
   const nav = useNavigation();
   const route = useRoute();
+  const email = useSelector((state: RootState) => state.login.email);
   const product = route.params as Product;
   const isCart = (route.params as any).isCart as boolean;
   const dispatch = useDispatch<any>();
   const isLogged = useSelector((state: RootState) => state.login.isLogged);
 
   const addToCart = () => {
-    dispatch(cartAction.addToCart(product));
+    dispatch(cartAction.addToCart(product, email));
   }
 
   const goToLoginScreen = () => {
@@ -28,7 +29,7 @@ const ProductDetail: React.FC<Props> = (props: Props) => {
   }
 
   const removeFromCart = () => {
-    dispatch(cartAction.removeFromCart(product.id));
+    dispatch(cartAction.removeFromCart(email, product.id));
     nav.navigate('Cart', { screen: 'Cart Product' });
   }
 
@@ -90,13 +91,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   productImg: {
-    width: 200,
-    height: 200,
+    width: '100%',
+    minHeight: 500,
   },
   name: {
     fontSize: 28,
     color: "#696969",
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   price: {
     marginTop: 10,
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
   description: {
-    textAlign: 'center',
+    // textAlign: 'center',
     marginTop: 10,
     color: "#696969",
   },

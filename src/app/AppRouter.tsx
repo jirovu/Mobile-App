@@ -18,6 +18,7 @@ interface Props { }
 
 const AppRouter: React.FC<Props> = (props) => {
   const { number } = useSelector((state: RootState) => state.cart);
+  const isLogged = useSelector((state: RootState) => state.login.isLogged);
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
@@ -51,7 +52,7 @@ const AppRouter: React.FC<Props> = (props) => {
 
                 return (
                   <IconWithBadge
-                    badgeCount={badgeCount}
+                    badgeCount={isLogged ? badgeCount : 0}
                     name={iconName}
                     size={size}
                     color={color}

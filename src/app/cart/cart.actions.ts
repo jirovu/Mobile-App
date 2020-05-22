@@ -3,26 +3,26 @@ import { Dispatch } from 'redux';
 import { cartActionCreator, Product } from './cart.state';
 
 class CartAction {
-  addToCart = (product: Product) => {
+  addToCart = (product: Product, email: string) => {
     return (dispatch: Dispatch<any>, getState: any) => {
       const carts = getState().cart.carts as Product[];
       const isExisted = carts.some(p => p.id === product.id);
       if (!isExisted) {
         dispatch({
           type: cartActionCreator.ADD_TO_CART,
-          payload: product
+          payload: { product, email }
         })
       }
     }
   }
 
-  removeFromCart = (id: number) => {
+  removeFromCart = (email: string, id: number) => {
     return (dispatch: Dispatch<any>, getState: any) => {
       const carts = getState().cart.carts as Product[];
       const newCarts = carts.filter(p => p.id !== id);
       const number = newCarts.length;
       const cartsJson = JSON.stringify(newCarts);
-      AsyncStorage.setItem('carts', cartsJson).then(() => {
+      AsyncStorage.setItem(`carts[${email}]`, cartsJson).then(() => {
         dispatch({
           type: cartActionCreator.REMOVE_FROM_CART,
           payload: { newCarts, number }

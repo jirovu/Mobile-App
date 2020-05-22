@@ -13,14 +13,28 @@ const CartScreen: React.FC<Props> = (props: Props) => {
   const isLogged = useSelector((state: RootState) => state.login.isLogged);
   const carts = useSelector((state: RootState) => state.cart.carts);
 
+  const onOrder = () => {
+
+  }
+
   return <>
     {
       isLogged ?
-        ((carts && carts.length > 0) ? carts.map(e => (
-          <React.Fragment key={e.id}>
-            <ProductItem product={e} isCart={true} />
-          </React.Fragment>
-        ))
+        ((carts && carts.length > 0) ?
+          <View>
+            {
+              carts.map(e => (
+                <React.Fragment key={e.id}>
+                  <ProductItem product={e} isCart={true} />
+                </React.Fragment>
+              ))
+            }
+
+            <Button
+              title="Dat hang"
+              onPress={onOrder}
+            />
+          </View>
           :
           <Text style={{ textAlign: 'center', margin: 'auto' }}>Empty Cart</Text>)
         :
@@ -28,7 +42,7 @@ const CartScreen: React.FC<Props> = (props: Props) => {
           <Text style={{ textAlign: 'center', marginTop: 10, marginBottom: 10 }}>Please login to continue</Text>
           <Button
             title="Login"
-            onPress={() => nav.navigate('Login')}
+            onPress={() => nav.navigate('User', { screen: 'Login' })}
           />
         </View>
     }

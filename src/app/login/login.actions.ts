@@ -3,6 +3,15 @@ import { loginActionCreator, LoginState } from './login.state';
 import { AsyncStorage } from 'react-native';
 
 class LoginAction {
+
+  changePassword = (email: string, newPassword: string) => {
+    AsyncStorage.setItem('user', `${email}:${newPassword}`);
+    return {
+      type: loginActionCreator.CHANGE_PASSWORD,
+      payload: { email, password: newPassword }
+    }
+  }
+
   login = (user: LoginState) => {
     AsyncStorage.setItem('user', `${user.email}:${user.password}`);
     return {

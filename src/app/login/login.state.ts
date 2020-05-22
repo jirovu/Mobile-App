@@ -3,7 +3,8 @@ import { Action } from '../actions.config';
 export const loginActionCreator = {
   LOGIN: 'LOGIN',
   REGISTER: 'REGISTER',
-  LOGOUT: 'LOGOUT'
+  LOGOUT: 'LOGOUT',
+  CHANGE_PASSWORD: 'CHANGE_PASSWORD'
 }
 
 export interface LoginState {
@@ -26,6 +27,10 @@ export const loginReducer = (state: LoginState = initialLoginState, action: Acti
     }
     case loginActionCreator.LOGOUT: {
       return { ...state, email: '', password: '', isLogged: false };
+    }
+    case loginActionCreator.CHANGE_PASSWORD: {
+      const { email, password } = action.payload;
+      return { ...state, email, password };
     }
     default:
       return { ...state };

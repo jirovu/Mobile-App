@@ -28,10 +28,11 @@ const initialCartState: CartState = {
 export const cartState = (state: CartState = initialCartState, action: Action) => {
   switch (action.type) {
     case cartActionCreator.ADD_TO_CART: {
-      const product = action.payload as Product;
+      const product = action.payload.product as Product;
+      const email = action.payload.email;
       const newCarts = [...state.carts];
       newCarts.push(product);
-      AsyncStorage.setItem('carts', JSON.stringify(newCarts));
+      AsyncStorage.setItem(`carts[${email}]`, JSON.stringify(newCarts));
       const number = newCarts.length;
 
       return { ...state, carts: newCarts, number };
